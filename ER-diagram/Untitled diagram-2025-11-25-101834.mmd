@@ -1,0 +1,88 @@
+erDiagram
+    MEMBER {
+        int member_id PK
+        string name
+        string email
+        string mobile
+        date date_of_birth
+        date started_date
+        date expired_date
+        int points
+    }
+
+    CUSTOMER {
+        int customer_id PK
+        string customer_type  
+        int member_id FK      
+    }
+
+    SALES {
+        int sale_id PK
+        date sale_date
+        float total_amount
+        int customer_id FK
+        int staff_id FK
+        int coupon_id FK
+    }
+
+    SALES_ITEM {
+        int sale_item_id PK
+        int sale_id FK
+        int product_id FK
+        int quantity
+        float unit_price
+        float subtotal
+    }
+
+    PRODUCT {
+        int product_id PK
+        string product_name
+        string category
+        float price
+        int stock_qty
+    }
+
+    STAFF {
+        int staff_id PK
+        string staff_name
+        string role
+    }
+
+    COUPON {
+        int coupon_id PK
+        string coupon_code
+        int discount_value
+        date valid_from
+        date valid_to
+    }
+
+    INVENTORY {
+        int inventory_id PK
+        string item_name
+        string unit          
+        int quantity         
+        int min_threshold    
+        string status       
+        string type  
+    }        
+
+    INVENTORY_LOG {
+        int log_id PK
+        int inventory_id FK
+        string action_type   
+        int quantity_change  
+        date action_date
+        int staff_id FK
+        string note
+    }
+
+    MEMBER ||--|| CUSTOMER : "is a"
+    CUSTOMER ||--o{ SALES : "make"
+    SALES ||--o{ SALES_ITEM : "contain"
+    PRODUCT ||--o{ SALES_ITEM : "sold"
+    STAFF ||--o{ SALES : "process"
+    COUPON ||--o{ SALES : "applie"
+    INVENTORY ||--o{ INVENTORY_LOG : "has log"
+    STAFF ||--o{ INVENTORY_LOG : "perform"
+    MEMBER ||--o{ COUPON :"have"
+
