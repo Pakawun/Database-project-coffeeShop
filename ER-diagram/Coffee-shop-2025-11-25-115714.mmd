@@ -46,6 +46,30 @@ erDiagram
         int staff_id PK
         string staff_name
         string role
+        string email
+        string phone
+        date hire_date
+        float salary
+        string status
+        string shift_type
+    }
+
+    STAFF_SHIFT {
+        int shift_id PK
+        int staff_id FK
+        date shift_date
+        string start_time
+        string end_time
+        string shift_role
+        string status
+    }
+
+    STAFF_ATTENDANCE {
+        int attendance_id PK
+        int staff_id FK
+        datetime check_in
+        datetime check_out
+        string status
     }
 
     COUPON {
@@ -76,13 +100,38 @@ erDiagram
         string note
     }
 
+    MACHINE {
+        int machine_id PK
+        string machine_name
+        string machine_type
+        date purchase_date
+        string status
+        string location
+    }
+
+    MACHINE_MAINTENANCE {
+        int maintenance_id PK
+        int machine_id FK
+        int staff_id FK
+        date maintenance_date
+        string action_type
+        string note
+    }
+
     MEMBER ||--|| CUSTOMER : "is a"
+    MEMBER ||--o{ COUPON : "have"
+
     CUSTOMER ||--o{ SALES : "make"
     SALES ||--o{ SALES_ITEM : "contain"
     PRODUCT ||--o{ SALES_ITEM : "sold"
     STAFF ||--o{ SALES : "process"
     COUPON ||--o{ SALES : "applie"
+
     INVENTORY ||--o{ INVENTORY_LOG : "has log"
     STAFF ||--o{ INVENTORY_LOG : "perform"
-    MEMBER ||--o{ COUPON :"have"
 
+    MACHINE ||--o{ MACHINE_MAINTENANCE : "has maintenance"
+    STAFF ||--o{ MACHINE_MAINTENANCE : "perform"
+
+    STAFF ||--o{ STAFF_SHIFT : "assigned to"
+    STAFF ||--o{ STAFF_ATTENDANCE : "record"
