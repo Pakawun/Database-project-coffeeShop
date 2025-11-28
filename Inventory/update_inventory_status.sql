@@ -1,4 +1,4 @@
-create function update_inventory_status() returns void
+create functionupdate_inventory_status() returns void
     language plpgsql
 as
 $$
